@@ -41,7 +41,7 @@
     if (n === undefined) {
       return array[array.length - 1];
     } else {
-      return n < array.length ? array.slice(array.length - n, array.length) : array
+      return n < array.length ? array.slice(array.length - n, array.length) : array;
     }
   };
 
@@ -82,11 +82,13 @@
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
     var results = [];
+
     _.each(collection, function(item) {
       if (test(item)) {
         results.push(item);
       }
     });
+
     return results;
   };
 
@@ -95,12 +97,21 @@
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
     return _.filter(collection, function(item) {
-      return !test(item)
+      return !test(item) //returns the item only if it fails the test
     });
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniques = [];
+
+    _.each(array, function(element){
+      if (_.indexOf(uniques, element) === -1) {
+        uniques.push(element);
+      }
+    });
+
+    return uniques;
   };
 
 
