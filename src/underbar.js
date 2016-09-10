@@ -227,6 +227,23 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    
+    // if no iterator provided, evaluate truth based on boolean value of each item
+    if (iterator === undefined) {
+      iterator = _.identity;
+    }
+
+    // check for collection of all-falsy results
+    var allFalse = _.every(collection, function(item) {
+        return !iterator(item);
+    });
+      
+    // if not all elements are false, some must be true
+    if (!allFalse) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
 
