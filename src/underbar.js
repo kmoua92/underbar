@@ -170,17 +170,21 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
     
-    for (var i = 0; i < collection.length; i++) {
-      //check if accumulator is provided before first iteration
-      if (i === 0 && accumulator === undefined) { 
-        accumulator = collection[0];
+    // array to store items in collection - allows access to key values if collection is an object
+    var values = _.map(collection, function(item){
+      return item;
+    }); 
+    
+    for (var i = 0; i < values.length; i++) {
+      if (i === 0 && accumulator === undefined) {
+        accumulator = values[0];
         continue;
       }
 
-      accumulator = iterator(accumulator, collection[i]); 
+      accumulator = iterator(accumulator, values[i]);
     }
 
-    return accumulator;
+    return accumulator; 
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -199,6 +203,24 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+
+    // if no iterator provided, evaluate truth based on boolean value of each item
+    if (iterator === undefined) {
+      iterator = _.identity
+    }
+
+    return _.reduce(collection, function(isTrue, item) {
+      // convert 0, 1, and everything else that's not a number to a boolean
+      if (item === 0 || item === 1 || isNaN(item)) {
+        item = !!item;
+      }
+
+      if (isTrue) {
+        return iterator(item);
+      } else {
+        return false;
+      }
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
