@@ -268,9 +268,9 @@
   _.extend = function(destination, source) {
     
     // each argument is an object
-    _.each(arguments, function(argument){
+    _.each(arguments, function(argument) {
       // so iterate through each argument's properties and assign them to the destination
-      _.each(argument, function(value, key, collection){
+      _.each(argument, function(value, key, collection) {
         destination[key] = value;
       });
     });
@@ -280,7 +280,20 @@
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
-  _.defaults = function(obj) {
+  _.defaults = function(destination, source) {
+    
+    // each argument is an object
+    _.each(arguments, function(argument) {
+      // so iterate through each argument's properties
+      _.each(argument, function(value, key, collection) {
+        // assign properties to the destination if the key doesn't exist already
+        if (destination[key] === undefined) {
+          destination[key] = value;
+        }
+      });
+    });
+
+    return destination;
   };
 
 
