@@ -265,7 +265,17 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
-  _.extend = function(obj) {
+  _.extend = function(destination, source) {
+    
+    // each argument is an object
+    _.each(arguments, function(argument){
+      // so iterate through each argument's properties and assign them to the destination
+      _.each(argument, function(value, key, collection){
+        destination[key] = value;
+      });
+    });
+
+    return destination;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
